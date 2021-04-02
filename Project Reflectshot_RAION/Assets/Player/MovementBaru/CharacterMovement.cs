@@ -1,4 +1,4 @@
-
+using System.Collections;
 using UnityEngine;
 
 
@@ -11,14 +11,15 @@ public class CharacterMovement : MonoBehaviour
     public float moveSpeed = 10f;
     public float jumpForce = 5f;
     private float moveInput;
+    private float newMoveSpeed;
 
     //Atribut untuk cek nyentuh tanah atau tidak
-    private bool isGrounded;
+    public bool isGrounded;
     public Transform checkGround;
     public float checkRadius;
     public LayerMask whatIsGround;
     //Tambahan 
-    private bool facingRight = true;
+    public bool facingRight = true;
 
     //Buat Lompat + extra jump
     private int extraJump;
@@ -30,17 +31,21 @@ public class CharacterMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         extraJump = extraJumpValue;
+        newMoveSpeed = moveSpeed;
     }
 
     
     void FixedUpdate()
     {
-
         isGrounded = Physics2D.OverlapCircle(checkGround.position, checkRadius, whatIsGround);
 
         //Gerak kanan kiri
-        moveInput = Input.GetAxis("Horizontal") * moveSpeed;
-        rb.velocity = new Vector2(moveInput, rb.velocity.y);
+
+        if (!GetComponent<Dash>().getIsDashing() && !GetComponent<playerSlide>().Sliding()) {
+            moveInput = Input.GetAxis("Horizontal") * newMoveSpeed;
+            rb.velocity = new Vector2(moveInput, rb.velocity.y);
+        }
+        
 
         //Ubah posisi karakter
         if(moveInput > 0 && facingRight == false)
@@ -52,27 +57,37 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
+    private void Update() {
         //Cek buat tambahin lompatan
-        if(isGrounded == true)
-        {
+        if (isGrounded == true) {
             extraJump = extraJumpValue;
         }
 
         //Untuk Lompat
-        if(Input.GetKeyDown(KeyCode.Space) && extraJump > 0)
-        {
-            rb.velocity = Vector2.up * jumpForce;
+        if (Input.GetKeyDown(KeyCode.Space) && extraJump > 0) {
+            rb.velocity += Vector2.up * jumpForce;
             extraJump--;
-        } else if (Input.GetKeyDown(KeyCode.Space) && extraJump == 0 && isGrounded == true)
-        {
-            rb.velocity = Vector2.up * jumpForce;
+        } else if (Input.GetKeyDown(KeyCode.Space) && extraJump == 0 && isGrounded == true) {
+            rb.velocity += Vector2.up * jumpForce;
         }
+
+        //efeksliding
+        if (GetComponent<playerSlide>().Sliding()) {
+
+            newMoveSpeed = moveSpeed + GetComponent<playerSlide>().getSlideSpeed() / 50;
+        }
+
+        if (Input.GetAxis("Horizontal") == 0) {
+            newMoveSpeed = moveSpeed; ;
+        }
+
+        if (isGrounded && newMoveSpeed > moveSpeed) {
+            newMoveSpeed -= 0.1f;
+        }
+
     }
 
-    void Flip()
-    {
+        void Flip() {
         facingRight = !facingRight;
 
         transform.Rotate(0f, 180f, 0f);
@@ -80,5 +95,6 @@ public class CharacterMovement : MonoBehaviour
         /*Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;*/
-    }
+        }
 }
+    
