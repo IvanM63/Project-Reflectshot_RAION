@@ -14,7 +14,7 @@ public class playerSlide : MonoBehaviour
 
     public float slideSpeed;
 
-    private bool isSliding = false;
+    public bool isSliding = false;
 
 
     void Start()
@@ -40,12 +40,12 @@ public class playerSlide : MonoBehaviour
         } else {
             rb.AddForce(Vector2.left * slideSpeed);
         }
-        StartCoroutine(stopSliding());  
+        StartCoroutine(stopSliding());
     }
 
     IEnumerator stopSliding() {
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
 
         normalCollys.enabled = true;
         slideCollys.enabled = false;
@@ -59,16 +59,5 @@ public class playerSlide : MonoBehaviour
     public float getSlideSpeed() {
         return slideSpeed;
     }
-
-    void Slidd() {
-        isSliding = true;
-        if (player.facingRight) {
-            rb.AddForce(transform.right * slideSpeed);
-        } else {
-            rb.AddForce(transform.right * -slideSpeed);
-        }
-        isSliding = false;
-    }
-
 
 }

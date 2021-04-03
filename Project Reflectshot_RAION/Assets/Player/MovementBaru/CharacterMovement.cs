@@ -10,8 +10,6 @@ public class CharacterMovement : MonoBehaviour
     //Atribut untuk ngatur movement
     public float moveSpeed = 10f;
     public float jumpForce = 5f;
-    private float moveInput;
-    private float newMoveSpeed;
 
     //Atribut untuk cek nyentuh tanah atau tidak
     public bool isGrounded;
@@ -25,13 +23,17 @@ public class CharacterMovement : MonoBehaviour
     private int extraJump;
     public int extraJumpValue;
 
+    //LinearDrag
+    public float dragAsli;
+
+    public float moveInput;
+
     void Start()
     {
         //Masukin Rigidbody2D
         rb = GetComponent<Rigidbody2D>();
 
         extraJump = extraJumpValue;
-        newMoveSpeed = moveSpeed;
     }
 
     
@@ -40,49 +42,26 @@ public class CharacterMovement : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(checkGround.position, checkRadius, whatIsGround);
 
         //Gerak kanan kiri
-
-        if (!GetComponent<Dash>().getIsDashing() && !GetComponent<playerSlide>().Sliding()) {
-            moveInput = Input.GetAxis("Horizontal") * newMoveSpeed;
-            rb.velocity = new Vector2(moveInput, rb.velocity.y);
-        }
-        
-
-        //Ubah posisi karakter
-        if(moveInput > 0 && facingRight == false)
-        {
-            Flip();
-        } else if (moveInput < 0 && facingRight == true)
-        {
-            Flip();
-        }
+        Movement();
     }
 
     private void Update() {
         //Cek buat tambahin lompatan
-        if (isGrounded == true) {
+        if (isGrounded) {
             extraJump = extraJumpValue;
+            rb.drag = dragAsli;
+        } else {
+            rb.drag = 1f;
         }
 
         //Untuk Lompat
         if (Input.GetKeyDown(KeyCode.Space) && extraJump > 0) {
-            rb.velocity += Vector2.up * jumpForce;
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Force);
+            /*rb.velocity += Vector2.up * jumpForce;*/
             extraJump--;
         } else if (Input.GetKeyDown(KeyCode.Space) && extraJump == 0 && isGrounded == true) {
-            rb.velocity += Vector2.up * jumpForce;
-        }
-
-        //efeksliding
-        if (GetComponent<playerSlide>().Sliding()) {
-
-            newMoveSpeed = moveSpeed + GetComponent<playerSlide>().getSlideSpeed() / 50;
-        }
-
-        if (Input.GetAxis("Horizontal") == 0) {
-            newMoveSpeed = moveSpeed; ;
-        }
-
-        if (isGrounded && newMoveSpeed > moveSpeed) {
-            newMoveSpeed -= 0.1f;
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Force);
+            /*rb.velocity += Vector2.up * jumpForce;*/
         }
 
     }
@@ -96,5 +75,23 @@ public class CharacterMovement : MonoBehaviour
         scale.x *= -1;
         transform.localScale = scale;*/
         }
+
+    void Movement() {
+        float xInput = Input.GetAxis("Horizontal");
+        float yInput = Input.GetAxis("Vertical");
+
+        //Ubah posisi karakter
+        if(xInput > 0 && facingRight == false) {
+            Flip();
+        } else if (xInput < 0 && facingRight == true) {
+            Flip();
+        }
+
+        float xForce = xInput * moveSpeed * Time.deltaTime;
+
+        Vector2 force = new Vector2(xForce, 0);
+
+        rb.AddForce(force);
+    }
 }
     
