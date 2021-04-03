@@ -26,7 +26,7 @@ public class Dash : MonoBehaviour
     {
         if (arah == 0)
         {
-            
+            //Dash kanan
             if (Input.GetKeyDown(KeyCode.D)) {
                 if (doubleTapTime > Time.time && lastKey == KeyCode.D) {
                     arah = 2;

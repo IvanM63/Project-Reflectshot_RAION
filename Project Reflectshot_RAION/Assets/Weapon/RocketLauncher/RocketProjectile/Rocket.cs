@@ -11,6 +11,7 @@ public class Rocket : MonoBehaviour
     public float lifeTime = 1.5f;
     public float distance = 0.5f;
 
+    //Tambahan
     public float fieldOfImpact;
     public float force;
     public LayerMask LayerToHit;
@@ -39,12 +40,11 @@ public class Rocket : MonoBehaviour
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, fieldOfImpact, LayerToHit); 
 
         foreach (Collider2D nearbyObject in colliders) {
-            Rigidbody2D rbo = nearbyObject.GetComponent<Rigidbody2D>();
-            Vector2 direction = nearbyObject.transform.position - transform.position;
+            Rigidbody2D rbo = nearbyObject.GetComponent<Rigidbody2D>();           
             if(rbo != null) {
-                rbo.AddForce(direction * force);
-            }
-            
+                Vector2 direction = nearbyObject.transform.position - transform.position;
+                rbo.AddForce(direction.normalized * force); 
+            }           
         }
     }
 

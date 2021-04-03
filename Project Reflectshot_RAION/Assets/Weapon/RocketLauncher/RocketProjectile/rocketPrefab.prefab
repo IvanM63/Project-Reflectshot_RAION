@@ -121,12 +121,12 @@ MonoBehaviour:
   whatIsSolid:
     serializedVersion: 2
     m_Bits: 192
-  bulletSpeed: 10
+  bulletSpeed: 15
   damage: 0
   lifeTime: 5
   distance: 0.1
   fieldOfImpact: 3
-  force: 250
+  force: 1000
   LayerToHit:
     serializedVersion: 2
     m_Bits: 200
