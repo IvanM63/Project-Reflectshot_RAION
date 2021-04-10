@@ -67,13 +67,6 @@ public class CharacterMovement : MonoBehaviour
             animator.SetBool("isJumping", true);
         }
 
-        if(Input.GetKeyDown(KeyCode.K)) {
-            animator.SetBool("isJumping", false);
-        }
-        if (Input.GetKeyDown(KeyCode.T)) {
-            animator.SetBool("isJumping", true);
-        }
-
     }
 
         void Flip() {

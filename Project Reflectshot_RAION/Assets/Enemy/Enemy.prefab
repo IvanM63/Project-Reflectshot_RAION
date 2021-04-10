@@ -127,7 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathEff: {fileID: 0}
   health: 100
-  force: 1000
+  force: 1500
   damageExplode: 50
   fieldOfImpact: 4
   LayerToHit:
@@ -196,12 +196,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   activateDistance: 50
-  pathUpdateSeconds: 0.5
+  pathUpdateS: 0.5
   speed: 600
   nextWaypointDistance: 3
-  jumpNodeHeightRequirement: 0.8
   jumpModifier: 1
-  jumpCheckOffset: 0.1
+  jumpNodeHeightRequirement: 0.8
+  jumpCekOff: 0.1
   followEnabled: 1
   jumpEnabled: 1
   directionLookEnabled: 1

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Lava : MonoBehaviour
 {
+    public GameObject anim;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -13,7 +15,7 @@ public class Lava : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Instantiate(anim, transform.position, transform.rotation);
     }
 
 

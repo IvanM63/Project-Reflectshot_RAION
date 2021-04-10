@@ -31,14 +31,13 @@ public class Dash : MonoBehaviour
         }
 
         //Pergerakan buat dash
-        if (arah == 0)
-        {
+        if (arah == 0) {
             //Dash kanan
             if (Input.GetKeyDown(KeyCode.D)) {
                 if (doubleTapTime > Time.time && lastKey == KeyCode.D) {
                     arah = 2;
                     StartCoroutine(Dashh());
-                    
+
                 } else {
                     doubleTapTime = Time.time + 0.2f;
                 }
@@ -50,31 +49,31 @@ public class Dash : MonoBehaviour
                 if (doubleTapTime > Time.time && lastKey == KeyCode.A) {
                     arah = 1;
                     StartCoroutine(Dashh());
-                    
+
                 } else {
                     doubleTapTime = Time.time + 0.2f;
                 }
                 lastKey = KeyCode.A;
-            }           
+            }
 
         } else {
-            if(tempDashTime <= 0) {
+            if (tempDashTime <= 0) {
                 arah = 0;
                 tempDashTime = startDashTime;
                 rb.velocity = Vector2.zero;
             } else {
                 tempDashTime -= Time.deltaTime;
 
-                if(arah == 1) {
+                if (arah == 1) {
                     rb.velocity = Vector2.left * dashSpeed;
-                    
+
                 } else if (arah == 2) {
                     rb.velocity = Vector2.right * dashSpeed;
-                    
+
                 }
-                
+
             }
-        }    
+        }
     }
 
     IEnumerator Dashh() {

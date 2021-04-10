@@ -15,7 +15,7 @@ public class EnemyAI : MonoBehaviour
     public float nextWaypointDistance = 3f;
     public float jumpModifier = 0.3f;
     public float jumpNodeHeightRequirement = 0.8f;   
-    public float jumpCheckOffset = 0.1f;
+    public float jumpCekOff = 0.1f;
 
     [Header("Custom Behavior")]
     public bool followEnabled = true;
@@ -26,9 +26,7 @@ public class EnemyAI : MonoBehaviour
     RaycastHit2D isGrounded;
     Seeker seeker;
     private Path path;
-    private int currentWaypoint = 0;
-    
-    
+    private int currentWaypoint = 0;   
     
 
     public void Start() {
@@ -61,7 +59,7 @@ public class EnemyAI : MonoBehaviour
         }
 
         // cek collision
-        Vector3 startOff = transform.position - new Vector3(0f, GetComponent<Collider2D>().bounds.extents.y + jumpCheckOffset);
+        Vector3 startOff = transform.position - new Vector3(0f, GetComponent<Collider2D>().bounds.extents.y + jumpCekOff);
         isGrounded = Physics2D.Raycast(startOff, -Vector3.up, 0.05f);
 
         // ngitung direction
