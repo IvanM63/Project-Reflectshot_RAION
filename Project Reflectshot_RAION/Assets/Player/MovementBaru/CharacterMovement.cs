@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
+    public Animator animator;
 
     private Rigidbody2D rb;
     //Atribut untuk ngatur movement
@@ -59,9 +60,11 @@ public class CharacterMovement : MonoBehaviour
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Force);
             /*rb.velocity += Vector2.up * jumpForce;*/
             extraJump--;
+            animator.SetBool("isJumping", true);
         } else if (Input.GetKeyDown(KeyCode.Space) && extraJump == 0 && isGrounded == true) {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Force);
             /*rb.velocity += Vector2.up * jumpForce;*/
+            animator.SetBool("isJumping", true);
         }
 
     }
@@ -79,6 +82,8 @@ public class CharacterMovement : MonoBehaviour
     void Movement() {
         float xInput = Input.GetAxis("Horizontal");
         float yInput = Input.GetAxis("Vertical");
+
+        animator.SetFloat("Speed", Mathf.Abs(xInput));
 
         //Ubah posisi karakter
         if(xInput > 0 && facingRight == false) {

@@ -20,6 +20,10 @@ public class WeaponSMG : MonoBehaviour
         currentAmmo = maxAmmo;
     }
 
+    private void OnEnable() {
+        isReloading = false;
+    }
+
     void Update()
     {
         if(isReloading) {
