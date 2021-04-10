@@ -16,6 +16,8 @@ public class Rocket : MonoBehaviour
     public float force;
     public LayerMask LayerToHit;
 
+    public GameObject explodeEffect;
+
     void Start() {
         Invoke("DestroyProjectile", lifeTime);
         rb.velocity = transform.right * bulletSpeed;
@@ -27,7 +29,12 @@ public class Rocket : MonoBehaviour
             Explode();
             if (hitInfo.collider.CompareTag("Enemy")) {
                 hitInfo.collider.GetComponent<Enemy>().takeDamage(damage);           
-            }           
+            }
+            if (hitInfo.collider.CompareTag("Barrel")) {
+                hitInfo.collider.GetComponent<Barrel>().takeDamage(damage);
+            }
+            Instantiate(explodeEffect, transform.position, transform.rotation);
+            
             DestroyProjectile();
         }
     }
@@ -42,9 +49,19 @@ public class Rocket : MonoBehaviour
         foreach (Collider2D nearbyObject in colliders) {
             Rigidbody2D rbo = nearbyObject.GetComponent<Rigidbody2D>();           
             if(rbo != null) {
-                Vector2 direction = nearbyObject.transform.position - transform.position;
+                Vector2 direction = rbo.transform.position - transform.position;
                 rbo.AddForce(direction.normalized * force); 
-            }           
+            }
+            if(nearbyObject.CompareTag("Player")) {
+                nearbyObject.GetComponent<Player>().takeDamage(damage/4);
+            }
+            if(nearbyObject.CompareTag("Enemy")) {
+                nearbyObject.GetComponent<Enemy>().takeDamage(damage);
+            }
+            if (nearbyObject.CompareTag("Barrel")) {
+                nearbyObject.GetComponent<Barrel>().takeDamage(damage);
+            }
+
         }
     }
 

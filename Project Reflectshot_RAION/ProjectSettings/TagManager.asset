@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - Barrel
+  - Lava
+  - Cermin
   layers:
   - Default
   - TransparentFX
@@ -14,10 +17,10 @@ TagManager:
   - UI
   - Platform
   - Enemy
-  - 
-  - 
-  - 
-  - 
+  - Bullet
+  - Barrel
+  - Lava
+  - Cermin
   - 
   - 
   - 

@@ -26,6 +26,9 @@ public class Bullet : MonoBehaviour
             {
                 hitInfo.collider.GetComponent<Enemy>().takeDamage(damage);
             }
+            if(hitInfo.collider.CompareTag("Barrel")) {
+                hitInfo.collider.GetComponent<Barrel>().takeDamage(damage);
+            }
             DestroyProjectile();
         }
     }
@@ -34,7 +37,4 @@ public class Bullet : MonoBehaviour
     {
         Destroy(gameObject);
     }
-
-    
-
 }
